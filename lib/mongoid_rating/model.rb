@@ -33,7 +33,7 @@ module Mongoid
           field "#{field}_count", type: Integer, default: 0
 
           # rates data
-          embeds_many "#{field}_data", as: :rateable, class_name: 'Mongoid::Rating::Rate', counter_cache: true
+          embeds_many "#{field}_data", as: :rateable, class_name: 'Mongoid::Rating::Rate' #, counter_cache: true
 
           # sum of all rates to calculate average
           field "#{field}_sum".to_sym, type: options[:float] ? Float : Integer
@@ -81,11 +81,10 @@ module Mongoid
               end
               raise "can't rate" unless can_#{field}?(rater)
               un#{field}!(rater)
-              atomically do
-                inc("#{field}_count" => 1, "#{field}_sum" => value)
-                #{field}_data.create!(rater: rater, value: value)
-                set("#{field}_average" => calc_#{field}_avg)
-              end
+              inc(:#{field}_count, 1)
+              inc(:#{field}_sum, value)
+              #{field}_data.create!(rater: rater, value: value)
+              set(:#{field}_average, calc_#{field}_avg)
             end
             def calc_#{field}_avg
               if #{field}_count < 1
@@ -99,11 +98,10 @@ module Mongoid
               if r.nil?
                 # not rated before
               else
-                atomically do
-                  inc("#{field}_count" => -1, "#{field}_sum" => -r.value)
-                  set("#{field}_average" => calc_#{field}_avg)
-                  r.destroy
-                end
+                inc(:#{field}_count, -1)
+                inc(:#{field}_sum, -r.value)
+                set(:#{field}_average, calc_#{field}_avg)
+                r.destroy
               end
             end
             alias_method :un#{field}, :un#{field}!

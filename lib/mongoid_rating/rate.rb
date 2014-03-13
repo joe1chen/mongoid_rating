@@ -1,7 +1,7 @@
 module Mongoid::Rating
   class Rate
     include Mongoid::Document
-    include Mongoid::Timestamps::Short
+    include Mongoid::Timestamps
     
     embedded_in :rateable, polymorphic: true
     belongs_to :rater, polymorphic: true, inverse_of: nil

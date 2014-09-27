@@ -13,4 +13,6 @@ rvm:
 gemfile:
   - Gemfile
   - gemfiles/mongoid-4.0.gemfile
+  - gemfiles/mongoid-3.x.gemfile
+  - gemfiles/mongoid-2.x.gemfile
 

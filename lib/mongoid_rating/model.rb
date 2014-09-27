@@ -86,10 +86,18 @@ module Mongoid
               end
               raise "can't rate" unless can_#{field}?(rater)
               un#{field}!(rater)
-              inc(:#{field}_count, 1)
-              inc(:#{field}_sum, value)
-              #{field}_data.create!(rater: rater, value: value)
-              set(:#{field}_average, calc_#{field}_avg)
+              if Mongoid::Rating::mongoid2? || Mongoid::Rating::mongoid3?
+                inc(:#{field}_count, 1)
+                inc(:#{field}_sum, value)
+                #{field}_data.create!(rater: rater, value: value)
+                set(:#{field}_average, calc_#{field}_avg)
+              else
+                atomically do
+                  inc("#{field}_count" => 1, "#{field}_sum" => value)
+                  #{field}_data.create!(rater: rater, value: value)
+                  set("#{field}_average" => calc_#{field}_avg)
+                end
+              end
             end
             def calc_#{field}_avg
               if #{field}_count < 1
@@ -103,9 +111,16 @@ module Mongoid
               if r.nil?
                 # not rated before
               else
-                inc(:#{field}_count, -1)
-                inc(:#{field}_sum, -r.value)
-                set(:#{field}_average, calc_#{field}_avg)
+                if Mongoid::Rating::mongoid2? || Mongoid::Rating::mongoid3?
+                  inc(:#{field}_count, -1)
+                  inc(:#{field}_sum, -r.value)
+                  set(:#{field}_average, calc_#{field}_avg)
+                else
+                  atomically do
+                    inc("#{field}_count" => -1, "#{field}_sum" => -r.value)
+                    set("#{field}_average" => calc_#{field}_avg)
+                  end
+                end
                 r.destroy
               end
             end

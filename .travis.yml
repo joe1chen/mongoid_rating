@@ -5,9 +5,7 @@ notifications:
 
 language: ruby
 rvm:
-  - 1.9.3
   - 2.3.3
-  - jruby-19mode
 
 env:
   - MONGOID_VERSION=3

@@ -16,5 +16,3 @@ when /3/
 else
   gem "mongoid", version
 end
-
-gem 'mongoid-compatibility'

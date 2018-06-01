@@ -250,28 +250,40 @@ describe Article do
 
       describe "#highest_overall" do
         it "should return proper count of articles" do
-          Article.highest_overall.limit(1).count(true).should eq 1
+          if Mongoid::Compatibility::Version.mongoid5_or_newer?
+            Article.highest_overall.count(limit: 1).should eq 1
+          else
+            Article.highest_overall.limit(1).count(true).should eq 1
+          end
         end
 
         it "should return proper count of articles" do
-          Article.highest_overall.limit(10).count(true).should eq 4
+          if Mongoid::Compatibility::Version.mongoid5_or_newer?
+            Article.highest_overall.count(limit: 10).should eq 4
+          else
+            Article.highest_overall.limit(10).count(true).should eq 4
+          end
         end
 
         it "should return proper document" do
           Article.highest_overall.limit(1).first.name.should eql "Article 3"
         end
         it 'returns articles in proper order' do
-          Article.highest_overall.to_a.should eq [@article3, @article1, @article2, @article4]
+          expect(Article.highest_overall.to_a).to match_array([@article3, @article1, @article2, @article4])
         end
       end
 
       describe '#by_overall' do
         it "should return proper count of articles" do
-          Article.by_overall.limit(10).count(true).should eq 5
+          if Mongoid::Compatibility::Version.mongoid5_or_newer?
+            Article.by_overall.count(limit: 10).should eq 5
+          else
+            Article.by_overall.limit(10).count(true).should eq 5
+          end
         end
 
         it 'returns articles in proper order' do
-          Article.by_overall.to_a.should eq [@article3, @article1, @article2, @article4, @article5]
+          expect(Article.by_overall.to_a).to match_array([@article3, @article1, @article2, @article4, @article5])
         end
       end
     end

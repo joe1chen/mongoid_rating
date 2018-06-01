@@ -7,6 +7,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
 require "rubygems"
 require "rspec"
 require "mongoid"
+require "mongoid/compatibility"
 require "mongoid_rating"
 require "database_cleaner"
 require "mongoid_rating"
@@ -18,7 +19,8 @@ if Mongoid::Rating::mongoid2?
   Mongoid.config.master = Mongo::Connection.new.db("mongoid_rating_test")
 else
   Mongoid.configure do |config|
-    config.connect_to "mongoid_rating_test"
+    name = "mongoid_rating_test"
+    config.respond_to?(:connect_to) ? config.connect_to(name) : config.master = Mongo::Connection.new.db(name)
   end
 end
 

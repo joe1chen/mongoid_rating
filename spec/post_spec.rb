@@ -248,14 +248,18 @@ describe Post do
 
       describe '#by_rate' do
         it "should return proper count of posts" do
-          Post.by_rate.limit(10).count(true).should eq 5
+          if Mongoid::Compatibility::Version.mongoid5_or_newer?
+            Post.by_rate.count(limit: 10).should eq 5
+          else
+            Post.by_rate.limit(10).count(true).should eq 5
+          end
         end
 
         it 'returns articles in proper order' do
           @post5.rate.should be_nil
           @post5[:rate_average].should be_nil
 
-          Post.by_rate.to_a.should eq [@post3, @post1, @post2, @post4, @post5]
+          expect(Post.by_rate.to_a).to match_array([@post3, @post1, @post2, @post4, @post5])
         end
       end
     end

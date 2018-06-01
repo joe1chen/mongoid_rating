@@ -82,7 +82,7 @@ describe Comment do
 
     describe "#rate_by" do
       describe "for Bob" do
-        specify { @comment1.rate_by?(@bob).should be_true }
+        specify { @comment1.rate_by?(@bob).should be_truthy }
         specify { @comment1.rate_by(@bob).should eq 2 }
       end
       describe "for Bob" do
@@ -95,13 +95,13 @@ describe Comment do
         end
 
         describe "for Alice" do
-          specify { @comment1.rate_by?(@alice).should be_true }
+          specify { @comment1.rate_by?(@alice).should be_truthy }
         end
       end
 
       describe "when not rated by someone else" do
         describe "for Sally" do
-          specify { @comment1.rate_by(@sally).should be_false }
+          specify { @comment1.rate_by(@sally).should be_falsey }
         end
       end
     end
@@ -173,15 +173,15 @@ describe Comment do
 
     describe "#rated_by?" do
       describe "for Bob" do
-        specify { @f_comment.rate_by?(@bob).should be_true}
+        specify { @f_comment.rate_by?(@bob).should be_truthy}
       end
 
       describe "for Sally" do
-        specify { @f_comment.rate_by?(@sally).should be_true }
+        specify { @f_comment.rate_by?(@sally).should be_truthy }
       end
 
       describe "for Alice" do
-        specify { @f_comment.rate_by?(@alice).should be_false}
+        specify { @f_comment.rate_by?(@alice).should be_falsey}
       end
     end
 

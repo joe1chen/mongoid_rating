@@ -74,10 +74,10 @@ describe Post do
 
     describe "#rated?" do
       describe "for Bob" do
-        specify { @post.rate_by?(@bob).should be_true }
+        specify { @post.rate_by?(@bob).should be_truthy }
       end
       describe "for Sally" do
-        specify { @post.rate_by?(@sally).should be_false }
+        specify { @post.rate_by?(@sally).should be_falsey }
       end
 
       describe "when rated by someone else" do
@@ -85,19 +85,19 @@ describe Post do
           @post.rate 1, @alice
         end
         describe "for Bob" do
-          specify { @post.rate_by?(@bob).should be_true }
+          specify { @post.rate_by?(@bob).should be_truthy }
         end
         describe "for Sally" do
-          specify { @post.rate_by?(@sally).should be_false }
+          specify { @post.rate_by?(@sally).should be_falsey }
         end
         describe "for Alice" do
-          specify { @post.rate_by?(@alice).should be_true }
+          specify { @post.rate_by?(@alice).should be_truthy }
         end
       end
 
       describe "when not rated by someone else" do
         describe "for Sally" do
-          specify { @post.rate_by?(@sally).should be_false }
+          specify { @post.rate_by?(@sally).should be_falsey }
         end
       end
     end
@@ -171,11 +171,11 @@ describe Post do
 
     describe "#rate_by?" do
       describe "for Bob" do
-        specify { @f_post.rate_by?(@bob).should be_true }
+        specify { @f_post.rate_by?(@bob).should be_truthy }
       end
 
       describe "for Alice" do
-        specify { @f_post.rate_by?(@alice).should be_false}
+        specify { @f_post.rate_by?(@alice).should be_falsey}
       end
     end
 

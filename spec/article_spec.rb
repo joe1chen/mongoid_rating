@@ -45,9 +45,9 @@ describe Article do
         end
 
         it "should not mark fields as dirty" do
-          @article.overall_count_changed?.should be_false
-          @article.overall_sum_changed?.should be_false
-          @article.overall_average_changed?.should be_false
+          @article.overall_count_changed?.should be_falsey
+          @article.overall_sum_changed?.should be_falsey
+          @article.overall_average_changed?.should be_falsey
         end
 
         it "should limit #overalls by user properly" do
@@ -79,11 +79,11 @@ describe Article do
 
       describe "#overall_by?" do
         describe "for Bob" do
-          specify { @article.overall_by?(@bob).should be_true }
+          specify { @article.overall_by?(@bob).should be_truthy }
         end
         describe "for Bob" do
-          specify { @article1.overall_by?(@bob).should be_false }
-          specify { @article.overall_by?(@alice).should be_false }
+          specify { @article1.overall_by?(@bob).should be_falsey }
+          specify { @article.overall_by?(@alice).should be_falsey }
         end
 
         describe "when overall by someone else" do
@@ -92,13 +92,13 @@ describe Article do
           end
 
           describe "for Alice" do
-            specify { @article.overall_by?(@alice).should be_true }
+            specify { @article.overall_by?(@alice).should be_truthy }
           end
         end
 
         describe "when not overall by someone else" do
           describe "for Sally" do
-            specify { @article.overall_by?(@sally).should be_false }
+            specify { @article.overall_by?(@sally).should be_falsey }
           end
         end
       end
@@ -115,7 +115,7 @@ describe Article do
         end
 
         it "#overall_by?(@bob) should be false after unoverall" do
-          @article.overall_by?(@bob).should be_false
+          @article.overall_by?(@bob).should be_falsey
         end
       end
 
@@ -178,17 +178,17 @@ describe Article do
 
       describe "#overall_by?" do
         describe "for Bob" do
-          specify { @f_article.overall_by?(@bob).should be_true }
+          specify { @f_article.overall_by?(@bob).should be_truthy }
           specify { @f_article.overall_by(@bob).should eq(3) }
         end
 
         describe "for Sally" do
-          specify { @f_article.overall_by?(@sally).should be_true }
+          specify { @f_article.overall_by?(@sally).should be_truthy }
           specify { @f_article.overall_by(@sally).should eq(-5) }
         end
 
         describe "for Alice" do
-          specify { @f_article.overall_by?(@alice).should be_false}
+          specify { @f_article.overall_by?(@alice).should be_falsey}
           specify { @f_article.overall_by(@alice).should be_nil }
         end
       end

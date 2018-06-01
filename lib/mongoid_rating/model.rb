@@ -1,3 +1,5 @@
+require 'mongoid/compatibility'
+
 module Mongoid
   module Rating
     module Model
@@ -33,7 +35,7 @@ module Mongoid
           field "#{field}_count", type: Integer, default: 0
 
           # rates data
-          if Mongoid::Rating::mongoid2?
+          if Mongoid::Compatibility::Version.mongoid2?
             # No counter cache in mongoid2
             embeds_many "#{field}_data", as: :rateable, class_name: 'Mongoid::Rating::Rate'
           else
@@ -86,7 +88,7 @@ module Mongoid
               end
               raise "can't rate" unless can_#{field}?(rater)
               un#{field}!(rater)
-              if Mongoid::Rating::mongoid2? || Mongoid::Rating::mongoid3?
+              if Mongoid::Compatibility::Version.mongoid2? || Mongoid::Compatibility::Version.mongoid3?
                 inc(:#{field}_count, 1)
                 inc(:#{field}_sum, value)
                 #{field}_data.create!(rater: rater, value: value)
@@ -111,7 +113,7 @@ module Mongoid
               if r.nil?
                 # not rated before
               else
-                if Mongoid::Rating::mongoid2? || Mongoid::Rating::mongoid3?
+                if Mongoid::Compatibility::Version.mongoid2? || Mongoid::Compatibility::Version.mongoid3?
                   inc(:#{field}_count, -1)
                   inc(:#{field}_sum, -r.value)
                   set(:#{field}_average, calc_#{field}_avg)

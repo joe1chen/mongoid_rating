@@ -209,7 +209,7 @@ describe Comment do
 
     describe "#rate_by" do
       it "should return proper count of comments rated by Bob" do
-        if Mongoid::Rating::mongoid2?
+        if Mongoid::Compatibility::Version.mongoid2?
           @post1.comments.select { |c| c.rate_by(@bob) }.size.should eql 1     # In mongoid2, the scope rated_by in embedded comments is not working. As a workaround, use pure Ruby to select.
         else
           @post1.comments.rate_by(@bob).size.should eql 1
@@ -217,7 +217,7 @@ describe Comment do
       end
 
       it "should return proper count of comments rated by Sally" do
-        if Mongoid::Rating::mongoid2?
+        if Mongoid::Compatibility::Version.mongoid2?
           @post1.comments.select { |c| c.rate_by(@sally) }.size.should eql 2   # In mongoid2, the scope rated_by in embedded comments is not working. As a workaround, use pure Ruby to select.
         else
           @post1.comments.rate_by(@sally).size.should eql 2

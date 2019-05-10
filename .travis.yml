@@ -4,10 +4,21 @@ notifications:
   email: false
 
 language: ruby
+
 rvm:
   - 2.3.8
+  - 2.5.1
   - 2.5.5
   - 2.6.3
+
+matrix:
+  allow_failures:
+  - rvm: 2.5.5
+    env: RAILS_VERSION=3.2.22.5 MONGOID_VERSION=3.1.7
+  - rvm: 2.5.5
+    env: RAILS_VERSION=4.2.11.1 MONGOID_VERSION=4.0.2
+  - rvm: 2.5.5
+    env: RAILS_VERSION=4.2.11.1 MONGOID_VERSION=5.0.2
 
 env:
   - RAILS_VERSION=3.2.22.5 MONGOID_VERSION=3.1.7

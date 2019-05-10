@@ -27,6 +27,7 @@ module Mongoid
           }.merge(opt)
           options[:no_rate] ||= options[:float] ? '0.0' : '0'
           options[:format]  ||= options[:float] ? '%.1f' : '%d'
+          options[:validate] = options[:validate] != nil ? options[:validate] : true
 
           field = field.to_sym
           sfield = field.inspect
@@ -37,9 +38,9 @@ module Mongoid
           # rates data
           if Mongoid::Compatibility::Version.mongoid2?
             # No counter cache in mongoid2
-            embeds_many "#{field}_data", as: :rateable, class_name: 'Mongoid::Rating::Rate'
+            embeds_many "#{field}_data", as: :rateable, class_name: 'Mongoid::Rating::Rate', validate: options[:validate]
           else
-            embeds_many "#{field}_data", as: :rateable, class_name: 'Mongoid::Rating::Rate', counter_cache: true
+            embeds_many "#{field}_data", as: :rateable, class_name: 'Mongoid::Rating::Rate', validate: options[:validate], counter_cache: true
           end
 
           # sum of all rates to calculate average

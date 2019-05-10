@@ -194,6 +194,35 @@ describe Comment do
     end
   end
 
+  context "validations" do
+    context "when validating rating marks" do
+      it 'should not be valid if user is destroyed' do
+        @comment1.rate 3, @bob
+        @comment1.save!
+        @comment1.reload
+        expect(@comment1.valid?).to eq(true)
+
+        @bob.destroy
+        @comment1.reload
+        expect(@comment1.valid?).to eq(false)
+      end
+    end
+
+    context "when not validating rating marks" do
+      it 'should be valid if user is destroyed' do
+        @comment3 = @post.non_validated_comments.create :content => 'Goodbye!'
+        @comment3.rate 3, @bob
+        @comment3.save!
+        @comment3.reload
+        expect(@comment3.valid?).to eq(true)
+
+        @bob.destroy
+        @comment3.reload
+        expect(@comment3.valid?).to eq(true)
+      end
+    end
+  end
+
   describe "#scopes" do
     before (:each) do
       @post1 = Post.create(:name => "Post 1")

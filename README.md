@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.org/joe1chen/mongoid_rating.png?branch=master)](https://travis-ci.org/joe1chen/mongoid_rating)
 [![Coverage Status](https://coveralls.io/repos/rs-pro/mongoid_rating/badge.png)](https://coveralls.io/r/rs-pro/mongoid_rating)
 
-## Currenty this gem supports only Mongoid 4
+## Currenty this gem supports Mongoid 3.1 to 6.4
 
 ## Features
 

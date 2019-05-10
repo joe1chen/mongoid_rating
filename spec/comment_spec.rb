@@ -204,7 +204,12 @@ describe Comment do
 
         @bob.destroy
         @comment1.reload
-        expect(@comment1.valid?).to eq(false)
+        if Mongoid::Compatibility::Version.mongoid5_or_older?
+          # Mongoid 5 and older doesn't result in invalid comment.
+          expect(@comment1.valid?).to eq(true)
+        else
+          expect(@comment1.valid?).to eq(false)
+        end
       end
     end
 

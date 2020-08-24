@@ -36,12 +36,7 @@ module Mongoid
           field "#{field}_count", type: Integer, default: 0
 
           # rates data
-          if Mongoid::Compatibility::Version.mongoid2?
-            # No counter cache in mongoid2
-            embeds_many "#{field}_data", as: :rateable, class_name: 'Mongoid::Rating::Rate', validate: options[:validate]
-          else
-            embeds_many "#{field}_data", as: :rateable, class_name: 'Mongoid::Rating::Rate', validate: options[:validate], counter_cache: true
-          end
+          embeds_many "#{field}_data", as: :rateable, class_name: 'Mongoid::Rating::Rate', validate: options[:validate]
 
           # sum of all rates to calculate average
           field "#{field}_sum".to_sym, type: options[:float] ? Float : Integer

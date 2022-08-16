@@ -9,7 +9,7 @@ require "rspec"
 require "mongoid"
 require 'mongoid/compatibility'
 require "mongoid_rating"
-require "database_cleaner"
+require "database_cleaner/mongoid"
 
 MODELS = File.join(File.dirname(__FILE__), "models")
 Dir["#{MODELS}/*.rb"].each { |f| require f }
@@ -25,18 +25,8 @@ end
 
 Mongoid.logger = Logger.new($stdout)
 
-DatabaseCleaner.orm = "mongoid"
+DatabaseCleaner[:mongoid].strategy = [:deletion]
 
-RSpec.configure do |config|
-  config.before(:all) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.start
-  end
-
-  config.after(:each) do
-    DatabaseCleaner.clean
-  end
+RSpec.configure do |c|
+  c.before(:each) { DatabaseCleaner.clean }
 end

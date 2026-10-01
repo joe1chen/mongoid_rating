@@ -70,7 +70,7 @@ describe Comment do
       end
       
       context "when rate_value not in rating range" do
-        it { expect { @comment1.rate 9, @sally }.to raise_error() }
+        it { expect { @comment1.rate 9, @sally }.to raise_error(RuntimeError, "bad vote value") }
       end
 
       describe "when using positive values" do

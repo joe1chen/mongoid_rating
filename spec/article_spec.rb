@@ -60,8 +60,8 @@ describe Article do
         end
 
         context "when overall_value not in rating range" do
-          it { expect { @article.overall(17, @sally) }.to raise_error() }
-          it { expect { @article.overall(-17, @sally) }.to raise_error() }
+          it { expect { @article.overall(17, @sally) }.to raise_error(RuntimeError, "bad vote value") }
+          it { expect { @article.overall(-17, @sally) }.to raise_error(RuntimeError, "bad vote value") }
         end
 
         describe "when using positive values" do
@@ -172,8 +172,8 @@ describe Article do
       end
 
       it "disallows incorrect rates" do
-        expect { @article.overall(8, @bob) }.to raise_error
-        expect { @article.overall(-10, @sally) }.to raise_error
+        expect { @article.overall(8, @bob) }.to raise_error(RuntimeError, "bad vote value")
+        expect { @article.overall(-10, @sally) }.to raise_error(RuntimeError, "bad vote value")
       end
 
       describe "#overall_by?" do

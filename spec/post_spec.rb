@@ -66,8 +66,8 @@ describe Post do
       end
 
       context "when rate_value not in rating range" do
-        it { expect { @post.rate 17, @sally }.to raise_error() }
-        it { expect { @post.rate -17, @sally }.to raise_error() }
+        it { expect { @post.rate 17, @sally }.to raise_error(RuntimeError, "bad vote value") }
+        it { expect { @post.rate -17, @sally }.to raise_error(RuntimeError, "bad vote value") }
       end
 
     end

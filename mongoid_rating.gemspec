@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["glebtv@gmail.com"]
   spec.description   = %q{Star rating for Mongoid}
   spec.summary       = %q{Star rating for Mongoid}
-  spec.homepage      = "https://github.com/rs-pro/mongoid_rating"
+  spec.homepage      = "https://github.com/joe1chen/mongoid_rating"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
@@ -18,12 +18,11 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency 'mongoid'
+  spec.add_dependency "mongoid", ">= 7.0", "< 10"
   spec.add_dependency 'mongoid-compatibility'
 
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "rake"
-  spec.add_development_dependency "rspec"
+  spec.add_development_dependency "rspec", "~> 3.13"
   spec.add_development_dependency('database_cleaner-mongoid')
-  spec.add_development_dependency "coveralls"
 end

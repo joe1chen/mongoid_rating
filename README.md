@@ -30,11 +30,12 @@ The gemspec allows `mongoid >= 7.0, < 10`.
 
 ## Installation
 
-This fork is not published to RubyGems; install it from GitHub:
+This fork is not published to RubyGems; install it from GitHub, pinned to a release tag
+([releases](https://github.com/joe1chen/mongoid_rating/releases)):
 
 ```ruby
 # Gemfile
-gem 'mongoid_rating', github: 'joe1chen/mongoid_rating'
+gem 'mongoid_rating', github: 'joe1chen/mongoid_rating', tag: 'v0.2.0'
 ```
 
 Requiring the gem adds the `rateable` macro to every `Mongoid::Document`; there is no module to include.
@@ -123,11 +124,11 @@ what dogo-web runs today). To add a combination to CI, add a row to `matrix.incl
 
 ## History
 
-- **0.1.9+ (DOGOnews fork, 2026)** — GitHub Actions matrix up to Ruby 3.4 / Rails 8.0 / Mongoid 9.0 / MongoDB 8.0;
-  mongoid dependency `>= 7.0, < 10`; specs on RSpec 3.13; Travis and Coveralls removed.
-- **DOGOnews fork (2018–2022)** — mongoid-compatibility version checks, Mongoid 5–8 / Rails 5–7 support, optional
-  rate validation (`validate: false`), database_cleaner-mongoid.
-- **0.1.x (rs-pro / glebtv, 2013–2014)** — original gem, Mongoid 3/4.
+glebtv's original (2013, rs-pro, partially based on mongoid_rateable by Peter Savichev) reached 0.1.5 on RubyGems
+(Mongoid 4.0 alpha) and was continued by DOGOnews in this fork: 0.1.6–0.1.9 (2018–2019: Mongoid 2–6 support
+via mongoid-compatibility, the `validate:` option), then 0.2.0 (2026: Mongoid 7.0–9.x on current
+Ruby/Rails/MongoDB, and a fix for `rateable` raising on Mongoid 7+).
+See [CHANGELOG.md](CHANGELOG.md).
 
 ## Credits
 

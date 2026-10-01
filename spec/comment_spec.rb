@@ -204,11 +204,17 @@ describe Comment do
 
         @bob.destroy
         @comment1.reload
+        # The rate itself is always invalid once its rater is gone.
+        expect(@comment1.rate_data.first.valid?).to eq(false)
         if Mongoid::Compatibility::Version.mongoid5_or_older?
           # Mongoid 5 and older doesn't result in invalid comment.
           expect(@comment1.valid?).to eq(true)
-        else
+        elsif Mongoid::Compatibility::Version.mongoid7_or_older?
           expect(@comment1.valid?).to eq(false)
+        else
+          # Mongoid 8+ only re-validates embedded documents that are new or
+          # changed, so the parent stays valid while the rate is untouched.
+          expect(@comment1.valid?).to eq(true)
         end
       end
     end
